@@ -10,7 +10,6 @@ Source0: %{name}-%{version}.tar.bz2
 License: GPL
 Group: Networking
 Url: http://mmm.zarb.org/
-BuildRoot: %{_tmppath}/%{name}-buildroot
 Requires: rsync
 BuildRequires:    rpm-helper >= 0.16
 BuildArch: noarch
