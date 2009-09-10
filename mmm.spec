@@ -1,6 +1,6 @@
 %define name mmm
 %define version 0.02
-%define release %mkrel 4
+%define release %mkrel 5
 
 Summary: MMM Mirror Manager
 Name: %{name}
