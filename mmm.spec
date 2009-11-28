@@ -1,12 +1,12 @@
 %define name mmm
-%define version 0.02
-%define release %mkrel 5
+%define version 0.43
+%define release %mkrel 1
 
 Summary: MMM Mirror Manager
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Source0: %{name}-%{version}.tar.bz2
+Source0: %{name}-%{version}.tar.gz
 License: GPL
 Group: Networking
 Url: http://mmm.zarb.org/
@@ -15,8 +15,8 @@ Requires: rsync
 BuildRequires:    rpm-helper >= 0.16
 BuildArch: noarch
 BuildRequires: rsync perl(CGI) perl(Config::IniFiles) perl(Digest::MD5) 
-BuildRequires: perl(File::Temp) perl(Getopt::Long) perl(HTTP::Request)
-BuildRequires: perl(IO::Select) perl(LWP::UserAgent) perl(Sys::Hostname)
+BuildRequires: perl(File::Temp) perl(Getopt::Long)
+BuildRequires: perl(IO::Select) perl(Sys::Hostname)
 BuildRequires: perl(URI) perl(XML::Simple) perl-XML-Parser
 
 %description
@@ -43,10 +43,9 @@ mirror list.
 %setup -q
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
+%{__perl} Makefile.PL INSTALLDIRS=vendor --sysconfir=%_sysconfig --localstadir=%_var/lib
 %make
 
-perl -pi -e 's:^mirrordir.*=.*:mirrordir = %_sysconfdir/%name/mirrorlist:' config/mmm.cfg 
 perl -pi -e 's:^statedir.*=.*:statedir = /var/spool/mmm:' config/mmm.cfg 
 
 %check
@@ -73,7 +72,10 @@ mkdir -p %buildroot%_sysconfdir/%name
 mkdir -p %buildroot%_sysconfdir/%name/mirrorlist
 cp -a -f config/mmm.cfg %buildroot%_sysconfdir/%name/mmm.cfg
 
-mkdir -p %buildroot/var/spool/%name
+mkdir -p %buildroot/var/lib/%name
+
+mkdir -p %buildroot/%_sysconfdir/init.d
+install -m 755 init.d/mmmd %buildroot/%_sysconfdir/init.d/mmmd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -91,11 +93,11 @@ rm -rf $RPM_BUILD_ROOT
 %_bindir/*
 %{perl_vendorlib}/*
 %{_mandir}/*/*
-%dir /var/spool/%name
+%dir /var/lib/%name
+%_sysconfdir/init.d/mmmd
 
 %files cgi
 %defattr(-,root,root)
 %config(noreplace) %{_webappconfdir}/%{name}.conf
 /var/www/cgi-bin/mmm_status
-
 
