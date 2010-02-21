@@ -7,7 +7,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 License: GPL
-Group: Networking
+Group: Networking/WWW
 Url: http://mmm.zarb.org/
 Source0: %{name}-%{version}.tar.gz
 Requires: rsync
