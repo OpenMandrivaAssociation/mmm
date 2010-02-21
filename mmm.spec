@@ -1,23 +1,22 @@
 %define name mmm
 %define version 0.43
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: MMM Mirror Manager
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Source0: %{name}-%{version}.tar.gz
 License: GPL
 Group: Networking
 Url: http://mmm.zarb.org/
-BuildRoot: %{_tmppath}/%{name}-buildroot
+Source0: %{name}-%{version}.tar.gz
 Requires: rsync
-BuildRequires:    rpm-helper >= 0.16
-BuildArch: noarch
 BuildRequires: rsync perl(CGI) perl(Config::IniFiles) perl(Digest::MD5) 
 BuildRequires: perl(File::Temp) perl(Getopt::Long)
 BuildRequires: perl(IO::Select) perl(Sys::Hostname)
 BuildRequires: perl(URI) perl(XML::Simple) perl-XML-Parser
+BuildArch: noarch
+BuildRoot: %{_tmppath}/%{name}-%{version}
 
 %description
 MMM is a tool to easilly manage multiple mirroring process using a predefined 
@@ -30,9 +29,11 @@ It support:
 
 %package cgi
 Group: Networking
-Requires(post):   rpm-helper >= 0.16
-Requires(postun): rpm-helper >= 0.16
 Summary: MMM cgi report
+%if %mdkversion < 201010
+Requires(post):   rpm-helper
+Requires(postun):   rpm-helper
+%endif
 Requires: %name = %version-%release
 
 %description cgi
@@ -52,7 +53,7 @@ perl -pi -e 's:^statedir.*=.*:statedir = /var/spool/mmm:' config/mmm.cfg
 %make test
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
 
 # apache configuration
@@ -78,13 +79,17 @@ mkdir -p %buildroot/%_sysconfdir/init.d
 install -m 755 init.d/mmmd %buildroot/%_sysconfdir/init.d/mmmd
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post cgi
+%if %mdkversion < 201010
 %_post_webapp
+%endif
 
 %postun cgi
+%if %mdkversion < 201010
 %_postun_webapp
+%endif
 
 %files
 %defattr(-,root,root)
