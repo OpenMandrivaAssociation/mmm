@@ -11,10 +11,18 @@ Group: Networking/WWW
 Url: http://mmm.zarb.org/
 Source0: %{name}-%{version}.tar.gz
 Requires: rsync
-BuildRequires: rsync perl(CGI) perl(Config::IniFiles) perl(Digest::MD5) 
-BuildRequires: perl(File::Temp) perl(Getopt::Long)
-BuildRequires: perl(IO::Select) perl(Sys::Hostname)
-BuildRequires: perl(URI) perl(XML::Simple) perl-XML-Parser
+BuildRequires: rsync
+BuildRequires: perl(CGI)
+BuildRequires: perl(Config::IniFiles)
+BuildRequires: perl(Digest::MD5) 
+BuildRequires: perl(File::Temp)
+BuildRequires: perl(Getopt::Long)
+BuildRequires: perl(Sys::Hostname)
+BuildRequires: perl(IO::Select)
+BuildRequires: perl(URI)
+BuildRequires: perl(XML::Simple)
+BuildRequires: perl-XML-Parser
+BuildRequires: perl(Net::DNS)
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}
 
