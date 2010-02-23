@@ -25,6 +25,7 @@ BuildRequires: perl-XML-Parser
 BuildRequires: perl(Net::DNS)
 BuildRequires: perl(Date::Calc)
 BuildRequires: perl(WWW::HostipInfo)
+BuildRequires: perl(Mail::Send)
 BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}
 
