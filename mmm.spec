@@ -39,7 +39,7 @@ It support:
  - mirror status report.
 
 %package cgi
-Group: Networking
+Group: Networking/WWW
 Summary: MMM cgi report
 %if %mdkversion < 201010
 Requires(post):   rpm-helper
