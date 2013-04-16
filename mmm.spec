@@ -1,7 +1,7 @@
 Summary: MMM Mirror Manager
 Name:    mmm
 Version: 0.43
-Release: 4
+Release: 5
 License: GPL
 Group: Networking/WWW
 Url: http://mmm.zarb.org/
@@ -88,15 +88,7 @@ install -m 755 init.d/mmmd %buildroot/%_sysconfdir/init.d/mmmd
 %clean
 rm -rf %{buildroot}
 
-%post cgi
-%if %mdkversion < 201010
-%_post_webapp
-%endif
 
-%postun cgi
-%if %mdkversion < 201010
-%_postun_webapp
-%endif
 
 %files
 %defattr(-,root,root)
