@@ -1,7 +1,7 @@
 Summary: MMM Mirror Manager
 Name:    mmm
 Version: 0.43
-Release: 5
+Release: 6
 License: GPL
 Group: Networking/WWW
 Url: http://mmm.zarb.org/
