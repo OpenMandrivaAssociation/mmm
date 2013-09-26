@@ -1,7 +1,7 @@
 Summary: MMM Mirror Manager
 Name:    mmm
 Version: 0.43
-Release: 6
+Release: 7
 License: GPL
 Group: Networking/WWW
 Url: http://mmm.zarb.org/
@@ -37,11 +37,7 @@ It support:
 %package cgi
 Group: Networking/WWW
 Summary: MMM cgi report
-%if %mdkversion < 201010
-Requires(post):   rpm-helper
-Requires(postun):   rpm-helper
-%endif
-Requires: %name = %version-%release
+Requires: %{name} = %{version}-%{release}
 
 %description cgi
 MMM is a tool to easilly manage multiple mirroring process using a predefined 
@@ -51,7 +47,7 @@ mirror list.
 %setup -q
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor --sysconfir=%_sysconfig --localstadir=%_var/lib
+%{__perl} Makefile.PL INSTALLDIRS=vendor --sysconfir=%{_sysconfig} --localstadir=%{_var}/lib
 %make
 
 perl -pi -e 's:^statedir.*=.*:statedir = /var/spool/mmm:' config/mmm.cfg 
@@ -60,7 +56,6 @@ perl -pi -e 's:^statedir.*=.*:statedir = /var/spool/mmm:' config/mmm.cfg
 %make test
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 
 # apache configuration
@@ -69,39 +64,32 @@ cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
 ScriptAlias /mmm /var/www/cgi-bin/mmm_status
 
 <Location "/mmm">
-        SetEnv MMM_CONFIG %_sysconfdir/mmm/mmm.cfg
+        SetEnv MMM_CONFIG %{_sysconfdir}/mmm/mmm.cfg
 </Location>
 EOF
 
 mkdir -p %{buildroot}/var/www/cgi-bin
 install -m 755 bin/mmm_status %{buildroot}/var/www/cgi-bin/mmm_status
 
-mkdir -p %buildroot%_sysconfdir/%name
-mkdir -p %buildroot%_sysconfdir/%name/mirrorlist
-cp -a -f config/mmm.cfg %buildroot%_sysconfdir/%name/mmm.cfg
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}/mirrorlist
+cp -a -f config/mmm.cfg %{buildroot}%{_sysconfdir}/%{name}/mmm.cfg
 
-mkdir -p %buildroot/var/lib/%name
+mkdir -p %{buildroot}/var/lib/%{name}
 
-mkdir -p %buildroot/%_sysconfdir/init.d
-install -m 755 init.d/mmmd %buildroot/%_sysconfdir/init.d/mmmd
-
-%clean
-rm -rf %{buildroot}
-
-
+mkdir -p %{buildroot}/%{_sysconfdir}/init.d
+install -m 755 init.d/mmmd %{buildroot}/%{_sysconfdir}/init.d/mmmd
 
 %files
-%defattr(-,root,root)
 %doc examples www/index.html
-%config(noreplace) %_sysconfdir/%name
+%config(noreplace) %{_sysconfdir}/%{name}
 %_bindir/*
 %{perl_vendorlib}/*
 %{_mandir}/*/*
-%dir /var/lib/%name
-%_sysconfdir/init.d/mmmd
+%dir /var/lib/%{name}
+%{_sysconfdir}/init.d/mmmd
 
 %files cgi
-%defattr(-,root,root)
 %config(noreplace) %{_webappconfdir}/%{name}.conf
 /var/www/cgi-bin/mmm_status
 
@@ -124,7 +112,7 @@ rm -rf %{buildroot}
     - rebuild
     - rebuild
     - rebuild
-    - kill re-definition of %%buildroot on Pixel's request
+    - kill re-definition of buildroot on Pixel's request
 
   + Tomasz Pawel Gajc <tpg@mandriva.org>
     - rebuild
