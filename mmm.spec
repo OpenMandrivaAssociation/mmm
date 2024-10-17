@@ -4,7 +4,7 @@ Version: 0.43
 Release: 8
 License: GPL
 Group: Networking/WWW
-Url: http://mmm.zarb.org/
+Url: https://mmm.zarb.org/
 Source0: %{name}-%{version}.tar.gz
 Requires: rsync
 BuildRequires: rsync
