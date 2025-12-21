@@ -7,6 +7,7 @@ Group: Networking/WWW
 Url: https://mmm.zarb.org/
 Source0: %{name}-%{version}.tar.gz
 Requires: rsync
+BuildRequires:	make
 BuildRequires: rsync
 BuildRequires: perl-devel
 BuildRequires: perl(CGI)
